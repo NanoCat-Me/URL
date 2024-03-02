@@ -1,11 +1,10 @@
 export default class URI {
-	constructor(opts = []) {
-		this.name = "URI v1.2.6";
-		this.opts = opts;
-		this.json = { scheme: "", host: "", path: "", query: {} };
-	};
+	static name = "URI";
+	static version = "1.2.7";
+	static about() { return console.log(`\n🟧 ${this.name} v${this.version}\n`) };
+	static #json = { scheme: "", host: "", path: "", query: {} };
 
-	parse(url) {
+	static parse(url) {
 		const URLRegex = /(?:(?<scheme>.+):\/\/(?<host>[^/]+))?\/?(?<path>[^?]+)?\??(?<query>[^?]+)?/;
 		let json = url.match(URLRegex)?.groups ?? null;
 		if (json?.path) json.paths = json.path.split("/"); else json.path = "";
@@ -21,7 +20,7 @@ export default class URI {
 		return json
 	};
 
-	stringify(json = this.json) {
+	static stringify(json = this.#json) {
 		let url = "";
 		if (json?.scheme && json?.host) url += json.scheme + "://" + json.host;
 		if (json?.path) url += (json?.host) ? "/" + json.path : json.path;
